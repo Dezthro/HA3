@@ -1,6 +1,6 @@
 import de.tu_bs.*;
 
-public class MyTree<K extends Comparable<K>, V> implements Tree<K, V>{
+public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
 
     // Variabeln
     private K key;
@@ -73,6 +73,12 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V>{
     
     }
     
+    public K getKey() {
+    
+        return key;
+    
+    }
+    
     // Methoden
     public boolean isEmpty() {
     
@@ -82,7 +88,37 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V>{
     
     public int size() {
     
+        int counter = 0;
+        Iterator temp = this.iterator();
         
+        while(temp.hasNext()) {
+        
+            temp.next();
+            counter++;
+        
+        }
+        
+        return counter;
+    
+    }
+    
+    public boolean contains(K pKey) {
+    
+        boolean containsKey = false;
+        Iterator temp = this.iterator();
+        
+        while(temp.hasNext()) {
+        
+            if(temp.next().getKey().equals(pKey)) {
+            
+                containsKey = true;
+                break;
+            
+            }
+        
+        }
+        
+        return containsKey;
     
     }
     
@@ -107,14 +143,14 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V>{
                     
                 }
                 
-                MyTree<K, V> temp = current.pop();
+                MyTree<K, V> tempTree = current.pop();
                 
-                if(temp.hasRightTree()) {
+                if(tempTree.hasRightTree()) {
                 
                     current.push(temp.getRightTree());
                 
                 }
-                if(temp.hasLeftTree()) {
+                if(tempTree.hasLeftTree()) {
                 
                     current.push(temp.getLeftTree());
                 
