@@ -18,7 +18,7 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
     
     }
     
-    public MyTree<K, V>(T pKey, V pValue) {
+    public MyTree<K, V>(K pKey, V pValue) {
     
         key = pKey;
         value = pValue;
@@ -27,12 +27,18 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
     
     }
     
-    public MyTree<K, V>(T pKey, V pValue, MyTree pLeft, MyTree pRight) {
+    public MyTree<K, V>(K pKey, V pValue, MyTree pLeft, MyTree pRight) {
     
         key = pKey;
         value = pValue;
         LeftTree = pLeft;
         rightTree = pRight;
+    
+    }
+    
+    public MyTree<K, V>(MyTree<K, V> pTree) {
+    
+        this.insertTree(pTree);
     
     }
     
@@ -238,6 +244,99 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
             } else {
             
                 return null;
+            
+            }
+        
+        }
+    
+    }
+    
+    public V remove(K pKey) {
+    
+        if(this.getKey().compareTo(pKey) == 0) {
+            
+            V retValue = this.get(pKey);
+            
+            if(this.hasLeftTree()) {
+            
+                MyTree<K, V> tempLeft = this.getLeftTree().getLeftTree();
+                MyTree<K, V> tempLeftRight = this.getLeftTree().getRightTree();
+                MyTree<K, V> tempRight = this.getRightTree();
+                this = new MyTree<K, V>(this.getLeftTree().getKey(), this.getLeftTree.getValue(), tempLeft, tempRight);
+                this.insertTree(tempLeftRight);
+            
+            } else {
+            
+                this = this.getRightTree();
+            
+            }
+            
+            return retValue;
+        
+        } else if(this.getKey().compareTo(pKey) < 0) {
+        
+            if(this.hasLeftTree()) {
+            
+                return this.getLeftTree().remove(pKey);
+            
+            } else {
+            
+                return null;
+                
+            }
+            
+        } else  {
+        
+            if(this.hasRightTree()) {
+            
+                return this.getRightTree().remove(pKey);
+            
+            } else {
+            
+                return null;
+            
+            }
+        
+        }
+    
+    }
+    
+    public String toString() {
+    
+        Iterator temp = this.iterator();
+        
+        while(temp.hasNext()) {
+        
+            MyTree<K, V> tempTree = temp.next();
+            System.out.printf(%9s -> %9s\n, tempTree.getKey().toString(), tempTree.getValue().toString()\n);
+        
+        }
+    
+    }
+    
+    private void insertTree(MyTree<K, V> pTree) {
+    
+        if(this.getKey().compareTo(pTree.getKey()) < 0) {
+        
+            if(this.hasLeftTree() {
+            
+                this.getLeftTree().insertTree(pTree);
+            
+            } else {
+            
+                this.setLeftTree(pTree);
+            
+            }
+        
+        } else if(this.getKey().compareTo(pTree.getKey()) > 0) {
+        
+            if(this.hasRightTree() {
+            
+                this.getRightTree().insertTree(pTree);
+            
+            } else {
+            
+                this.setRightTree(pTree);
             
             }
         
