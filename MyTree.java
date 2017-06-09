@@ -61,6 +61,18 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V>{
     
     }
     
+    public boolean hasLeftTree() {
+    
+        return (this.getLeftTree() != null);
+    
+    }
+    
+    public boolean hasRightTree() {
+    
+        return (this.getRightTree() != null);
+    
+    }
+    
     // Methoden
     public boolean isEmpty() {
     
@@ -75,20 +87,41 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V>{
     }
     
     public Iterator iterator() {
+        
         return new Iterator() {
-            private MyList<E> current = MyList<E>.this;
+            
+            private MyStack<MyTree<K, V>> current = new MyStack<MyTree<K, V>>();
+            current.push(MyTree<K, V>.this);
 
             public boolean hasNext() {
+                
                 return !current.isEmpty();
+                
             }
 
-            public Comparable<T> next() {
+            public MyTree<K, V> next() {
+                
                 if (!hasNext()) {
+                    
                     throw new NoSuchElementException("");
+                    
                 }
-                Comparable<T> e = current.first();
-                current = current.next;
-                return e;
+                
+                MyTree<K, V> temp = current.pop();
+                
+                if(temp.hasRightTree()) {
+                
+                    current.push(temp.getRightTree());
+                
+                }
+                if(temp.hasLeftTree()) {
+                
+                    current.push(temp.getLeftTree());
+                
+                }
+                
+                return temp;
+                
            }
             
         };
