@@ -79,6 +79,18 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
     
     }
     
+    private V getValue() {
+    
+        return value;
+    
+    }
+    
+    private void setValue(V pValue) {
+    
+        this.value = pValue;
+    
+    }
+    
     // Methoden
     public boolean isEmpty() {
     
@@ -102,7 +114,7 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
     
     }
     
-    public boolean contains(K pKey) {
+    public boolean containsKey(K pKey) {
     
         boolean containsKey = false;
         Iterator temp = this.iterator();
@@ -122,6 +134,118 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
     
     }
     
+    public boolean containsValue(V pValue) {
+    
+        boolean containsValue = false;
+        Iterator temp = this.iterator();
+        
+        while(temp.hasNext()) {
+        
+            if(temp.next().getValue().equals(pValue)) {
+            
+                containsValue = true;
+                break;
+            
+            }
+        
+        }
+        
+        return containsValue;
+    
+    }
+    
+    public V get(K pKey) {
+    
+        V retValue = null;
+        Iterator temp = this.iterator();
+        
+        while(temp.hasNext()) {
+            
+            MyTree<K, V> tempTree = temp.next();
+        
+            if(tempTree.getKey().equals(pKey)) {
+                
+                retValue = tempTree.getValue();
+                
+            }
+        
+        }
+        
+        return retValue;
+    
+    }
+    
+    public V put(K pKey, V pValue) {
+    
+        if(this.getKey().compareTo(pKey) == 0) {
+        
+            return null;
+        
+        } else if(this.getKey().compareTo(pKey) < 0) {
+        
+            if(this.hasLeftTree()) {
+            
+                return this.getLeftTree().put(pKey, pValue);
+            
+            } else {
+            
+                this.setLeftTree(new MyTree<K, V>(pKey, pValue));
+                return pValue;
+                
+            }
+            
+        } else  {
+        
+            if(this.hasRightTree()) {
+            
+                return this.getRightTree().put(pKey, pValue);
+            
+            } else {
+            
+                this.setRightTree(new MyTree<K, V>(pKey, pValue));
+                return pValue;
+            
+            }
+        
+        }
+    
+    }
+    
+    public V replace(K pKey, V pValue) {
+    
+        if(this.getKey().compareTo(pKey) == 0) {
+            
+            this.setValue(pValue);
+        
+        } else if(this.getKey().compareTo(pKey) < 0) {
+        
+            if(this.hasLeftTree()) {
+            
+                return this.getLeftTree().replace(pKey, pValue);
+            
+            } else {
+            
+                return null;
+                
+            }
+            
+        } else  {
+        
+            if(this.hasRightTree()) {
+            
+                return this.getRightTree().replace(pKey, pValue);
+            
+            } else {
+            
+                return null;
+            
+            }
+        
+        }
+    
+    }
+    
+    // Iterator
     public Iterator iterator() {
         
         return new Iterator() {
