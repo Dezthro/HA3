@@ -315,31 +315,35 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
     }
     
     private void insertTree(MyTree<K, V> pTree) {
+        
+        if(pTree != null) {
     
-        if(this.getKey().compareTo(pTree.getKey()) < 0) {
-        
-            if(this.hasLeftTree() {
-            
-                this.getLeftTree().insertTree(pTree);
-            
-            } else {
-            
-                this.setLeftTree(pTree);
-            
+            if(this.getKey().compareTo(pTree.getKey()) < 0) {
+
+                if(this.hasLeftTree() {
+
+                    this.getLeftTree().insertTree(pTree);
+
+                } else {
+
+                    this.setLeftTree(pTree);
+
+                }
+
+            } else if(this.getKey().compareTo(pTree.getKey()) > 0) {
+
+                if(this.hasRightTree() {
+
+                    this.getRightTree().insertTree(pTree);
+
+                } else {
+
+                    this.setRightTree(pTree);
+
+                }
+
             }
-        
-        } else if(this.getKey().compareTo(pTree.getKey()) > 0) {
-        
-            if(this.hasRightTree() {
-            
-                this.getRightTree().insertTree(pTree);
-            
-            } else {
-            
-                this.setRightTree(pTree);
-            
-            }
-        
+                   
         }
     
     }
