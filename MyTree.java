@@ -91,6 +91,12 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
     
     }
     
+    private void setKey(K pKey) {
+    
+        this.key = pKey;
+    
+    }
+    
     private void setValue(V pValue) {
     
         this.value = pValue;
@@ -182,36 +188,46 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
     }
     
     public V put(K pKey, V pValue) {
+        
+        if(!this.isEmpty()) {
     
-        if(this.getKey().compareTo(pKey) == 0) {
-        
-            return null;
-        
-        } else if(this.getKey().compareTo(pKey) < 0) {
-        
-            if(this.hasLeftTree()) {
-            
-                return this.getLeftTree().put(pKey, pValue);
-            
-            } else {
-            
-                this.setLeftTree(new MyTree<K, V>(pKey, pValue));
-                return pValue;
-                
+            if(this.getKey().compareTo(pKey) == 0) {
+
+                return null;
+
+            } else if(this.getKey().compareTo(pKey) < 0) {
+
+                if(this.hasLeftTree()) {
+
+                    return this.getLeftTree().put(pKey, pValue);
+
+                } else {
+
+                    this.setLeftTree(new MyTree<K, V>(pKey, pValue));
+                    return pValue;
+
+                }
+
+            } else  {
+
+                if(this.hasRightTree()) {
+
+                    return this.getRightTree().put(pKey, pValue);
+
+                } else {
+
+                    this.setRightTree(new MyTree<K, V>(pKey, pValue));
+                    return pValue;
+
+                }
+
             }
             
-        } else  {
+        } else {
         
-            if(this.hasRightTree()) {
-            
-                return this.getRightTree().put(pKey, pValue);
-            
-            } else {
-            
-                this.setRightTree(new MyTree<K, V>(pKey, pValue));
-                return pValue;
-            
-            }
+            this.setKey(pKey);
+            this.setValue(pValue);
+            return this.get(pKey);
         
         }
     
@@ -303,14 +319,17 @@ public class MyTree<K extends Comparable<K>, V> implements Tree<K, V> {
     
     public String toString() {
     
+        String retString
         Iterator temp = this.iterator();
         
         while(temp.hasNext()) {
         
             MyTree<K, V> tempTree = temp.next();
-            System.out.printf(%9s -> %9s\n, tempTree.getKey().toString(), tempTree.getValue().toString()\n);
+            retString = retString + tempTree.getKey().toString() + " -> " + tempTree.getValue().toString() + "\n";
         
         }
+        
+        return retString;
     
     }
     
